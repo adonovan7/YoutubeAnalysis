@@ -1,4 +1,7 @@
-# Youtube_Dashboard
+# Youtube Analysis
+
+* first iteration of project created for UCSB Data Science Club with Matthew Peterschmidt, Shon Inouye, and Conor O'Brien <br>
+* see original repo [here](https://github.com/UCSB-dataScience-ProjectGroup/youtube)
 
 ## Goals: 
 1. Perform sentiment analysis on video comments to better convey audience reaction to content 
@@ -22,3 +25,4 @@
 3. [Dashboard Script](https://github.com/adonovan7/YoutubeAnalysis/blob/master/dash/Dashboard.py)
 	* provides an interactive platform for visually analyzing results
 	* written in Plotly's Dash, which is built on the Plotly.js, React, and Flask platforms
+
