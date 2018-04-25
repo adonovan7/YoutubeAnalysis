@@ -7,7 +7,7 @@ import flask
 #from pylab import *
 #from wordcloud import WordCloud
 
-os.chdir('/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/') # change directory
+os.chdir('/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/data/') # change directory
 df = pd.read_csv('OKGOcomments.csv', delimiter=";", skiprows=2, encoding='latin-1', engine='python') # read in the data
 
 df.columns = [
