@@ -5,10 +5,10 @@
 2. Create a functional dashboard to provide more usable and visual results
 
 ## Technologies
-**Packages:** Pandas, NumPy, NLTK, Plotly's Dash, and Scikit-learn 
-**Models:**Naïve Bayes, Logistic Regression, Support Vector Machine, K-NN, Neural Network, and Random Forest 
-**Languages:**Python, Javascript, HTML, possibly some SQL
-**APIs:**Google Development's Youtube API
+**Packages:** Pandas, NumPy, NLTK, Plotly's Dash, and Scikit-learn <br>
+**Models:** Naïve Bayes, Logistic Regression, Support Vector Machine, K-NN, Neural Network, and Random Forest <br>
+**Languages:** Python, Javascript, HTML, possibly some SQL <br>
+**APIs:** Google Development's Youtube API <br>
 
 ## Dashboard (In Progress): 
 ![dashboard screenshot](https://github.com/UCSB-dataScience-ProjectGroup/youtube/blob/Andies-Branch/images/Dashboard_Screenshot.png)
