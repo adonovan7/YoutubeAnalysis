@@ -30,7 +30,7 @@
 2. Download the repo and open it with a text editor
 3. Create a file named `config.js` in the main directory of the repo. Edit the script and type in your key with the following format (replacing the text within the single quotes with your key): 
     * The secret key should be about 39 characters in length and consists of upper and lower case letters as well as numbers
-    
+
 ```java
 var config = {
 	SECRET_KEY : 'AIzaSyCaMqxx3_RQXgVhS6QTmfpnFYRhoAKfvVA' 
@@ -49,9 +49,9 @@ var config = {
 	* **NOTE:** still in progress of cleaning this part up
 6. For the Dashboard capabilites, type `python -W ignore dash/Dashboard.py >/dev/null` to run the plotly Dash application 
 	* for Windows, the slashes are reversed: `Python3 dash\Dashboard.py`
-	* the `-W ignore` component of that command is to ignore the warnings to be printed in bash and the `>/dev/null` supressed any other output and downloading messages. **This is generally not good practice**, but for now it helps with readability of prior terminal commands, so I left it in place. 
-7. Open up the link [http://127.0.0.1:8050/ ](http://127.0.0.1:8050/) in your browser to view the dashboard locally
-
+	* the `-W ignore` component of that command is to ignore the warnings to be printed in bash and the `>/dev/null` supresses any other output and downloading messages. **This is generally not good practice**, but for now it helps with readability of prior terminal commands, so I left it in place. 
+6.b. Once you have the dashboard running locally through your terminal, open up the link [http://127.0.0.1:8050/ ](http://127.0.0.1:8050/) in your browser. Hitting ^C followed by y in your command line will kill the dash. 
+	* right now the dashboard is running off of the data produced from `Variables.py` within the dash folder. This is simply a python-only version of the jupyter notebook `Youtube_Analysis.ipynb` in the main file. Eventually, the flow of the different scripts and components will be smoothed out. 
 
 ### TO DO
 - [X] Create a more integrated/ cohesive workflow between scripts
