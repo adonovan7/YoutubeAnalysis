@@ -18,6 +18,8 @@
 ### Table of Contents: 
 1. [Youtube API Call](https://github.com/adonovan7/YoutubeAnalysis/blob/master/apiCall.py)
 	* pulls comments for a specified video from the API
+2. [User Prompt to Select Video](https://github.com/adonovan7/YoutubeAnalysis/blob/master/user_prompt.py)
+	* prompts the user to enter one of three videos (OK Go's "Obsession" music video, President Trump's 2017 inauguration speech, and highlights from the 2014 FIFA World Cup between Brazil and Germany). These three videos were selected because their topics were somewhat controversial, allotting us a variety of sentiments in the comment section. 
 2. [Machine Learning Jupyter Notebook](https://github.com/adonovan7/YoutubeAnalysis/blob/master/Youtube_Analysis.ipynb)
 	* conducts natural language processing to parse comments
 	* performs sentiment analysis through machine learning algorithms to classify data as positive, negative, or neutral 
@@ -50,8 +52,9 @@ var config = {
 6. For the Dashboard capabilites, type `python -W ignore dash/Dashboard.py >/dev/null` to run the plotly Dash application 
 	* for Windows, the slashes are reversed: `Python3 dash\Dashboard.py`
 	* the `-W ignore` component of that command is to ignore the warnings to be printed in bash and the `>/dev/null` supresses any other output and downloading messages. **This is generally not good practice**, but for now it helps with readability of prior terminal commands, so I left it in place. 
-6.b. Once you have the dashboard running locally through your terminal, open up the link [http://127.0.0.1:8050/ ](http://127.0.0.1:8050/) in your browser. Hitting ^C followed by y in your command line will kill the dash. 
-	* right now the dashboard is running off of the data produced from `Variables.py` within the dash folder. This is simply a python-only version of the jupyter notebook `Youtube_Analysis.ipynb` in the main file. Eventually, the flow of the different scripts and components will be smoothed out. 
+6.b. Once you have the dashboard running locally through your terminal, open up the link [http://127.0.0.1:8050/ ](http://127.0.0.1:8050/) in your browser. 
+	* Hitting `^C `followed by `y` in your command line will kill the dash. 
+	* Note: Right now the dashboard is running off of the data produced from `Variables.py` script within the dash folder. This is simply a python-only version of the jupyter notebook `Youtube_Analysis.ipynb` in the main file. Eventually, the flow of the different scripts and components will be smoothed out so there is less "jumping around" between files. 
 
 ### TO DO
 - [X] Create a more integrated/ cohesive workflow between scripts
