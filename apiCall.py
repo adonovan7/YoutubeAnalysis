@@ -331,3 +331,8 @@ for i in corpus:
     a = safeStr(i)
     print(a.encode('utf-8'), ",")
 
+
+'''
+Sources: 
+* This code was closely adapted from an api call script by Chirag Rathod: chiragr83@gmail.com
+'''
