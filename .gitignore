@@ -1,4 +1,9 @@
 secret_key.py
+notes.md
 venv
-ipynb_checkpoints
+.ipynb_checkpoints
 __pycache__
+*.pyc
+*~
+/__pycache__
+config.js

@@ -10,7 +10,7 @@ from urllib import *
 import argparse
 from urllib.parse import urlparse, urlencode, parse_qs
 from urllib.request import  urlopen
-import secret_key
+import config
 
 from nltk.tokenize import sent_tokenize, word_tokenize
 
@@ -62,7 +62,7 @@ class YouTubeApi():
             exit("Please specify video URL using the --videourl=parameter.")
 
         if not args.key:
-            args.key= secret_key.SECRET_KEY
+            args.key= config.SECRET_KEY
 
         try:
             video_id = urlparse(str(args.videourl))

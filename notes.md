@@ -1,3 +1,5 @@
+# Personal Notes for Project
+
 free text query: terms of the query are typed freeform into the search interface, without any connecting search operators
 * views queries simply as a set of words
 * assign each term in the document a weight by number of occurances: term freq = tf _ t,d `($\mbox{tf}_{t,d}$)` 

@@ -28,9 +28,15 @@
 ### Preliminary Instructions: 
 1. Set up an Google Dev account and get a personal API key for accessing the Youtube API
 2. Download the repo and open it with a text editor
-3. Create a file named `secret_key.py` in the main directory of the repo. Edit the script and type in your key with the following format (replacing the text within the single quotes with your key): 
-	* SECRET_KEY = 'AbCdEfGhIjKlmNop1234567' 
-	* The secret key should be about 39 characters in length and consists of upper and lower case letters as well as numbers
+3. Create a file named `config.js` in the main directory of the repo. Edit the script and type in your key with the following format (replacing the text within the single quotes with your key): 
+    * The secret key should be about 39 characters in length and consists of upper and lower case letters as well as numbers
+    
+```java
+var config = {
+	SECRET_KEY : 'AIzaSyCaMqxx3_RQXgVhS6QTmfpnFYRhoAKfvVA' 
+}
+```
+
 3. In your terminal, cd into the master file and run the `user_prompt.py` script by typing the following: 
 
 	`Python3 user_prompt.py` 
