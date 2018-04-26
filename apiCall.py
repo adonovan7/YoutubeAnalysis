@@ -102,7 +102,7 @@ class YouTubeApi():
 
                 i += 1
         except KeyboardInterrupt:
-            print("User Aborted the Operation")
+            print("URL: ", args.videourl, "\n") # "User Aborted the Operation"
 
         except:
             print("Cannot Open URL or Fetch comments at a moment")
@@ -178,7 +178,7 @@ class YouTubeApi():
                 i += 1
 
         except KeyboardInterrupt:
-            print("User Aborted the Operation")
+            print("URL: ", args.videourl, "\n") # "User Aborted the Operation"
 
         except:
             print("Cannot Open URL or Fetch comments at a moment")
@@ -247,7 +247,7 @@ class YouTubeApi():
                     i += 1
 
         except KeyboardInterrupt:
-            print("User Aborted the Operation")
+            print("URL: ", args.videourl, "\n") # "User Aborted the Operation"
 
         except:
             print("Cannot Open URL or Fetch comments at a moment")
@@ -258,12 +258,12 @@ class YouTubeApi():
             f.close()
             matches = data.decode("utf-8")
             return matches
-
+'''
 def sentiment(comment):
 	words = word_tokenize(comment)
 	filtered_comment = [w for w in words if not w in stop_words]
 	stemmedComment = ps.filteredComment(w)
-
+'''
 
 """
 def NLP():
@@ -329,5 +329,5 @@ for i in corpus:
 '''
 for i in corpus:
     a = safeStr(i)
-    print(a, ",")
+    print(a.encode('utf-8'), ",")
 

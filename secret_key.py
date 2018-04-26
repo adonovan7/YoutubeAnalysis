@@ -1,2 +1,1 @@
-
-SECRET_KEY = '<put your API key here>' 
+SECRET_KEY = 'AIzaSyCaMqxx3_RQXgVhS6QTmfpnFYRhoAKfvVA' 

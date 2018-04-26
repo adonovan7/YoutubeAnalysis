@@ -63,8 +63,9 @@ def generate_table(dataframe, max_rows=10):
         ]) for i in range(min(len(dataframe), max_rows))]
     )
 
-image_filename = 'wordcloud.png' # replace with your own image
-encoded_image = base64.b64encode(open(image_filename, 'rb').read())
+
+img_file = '../images/wordcloud.png'
+encoded_image = base64.b64encode(open(img_file, 'rb').read())
 
 
 X = deque(maxlen=20)
@@ -126,34 +127,34 @@ app.layout = html.Div(style={'backgroundColor': colors['background'],'columnCoun
         'padding': 8
     }),
 
-   	html.Label('URL: ', style={
+    html.Label('URL: ', style={
             'font-family': 'Dosis',
             'color': colors['text']
         }),
 
     #dcc.Textarea(
     #    id='my-id',
-	#    placeholder='Enter a value...',
-	#    value='Enter Youtube video URL here',
-	#    style={'height': '8px', 
-	#    'width': '800px', 
-	#    'textAlign': 'left', 'padding': 8}
-	#	),  
+    #    placeholder='Enter a value...',
+    #    value='Enter Youtube video URL here',
+    #    style={'height': '8px', 
+    #    'width': '800px', 
+    #    'textAlign': 'left', 'padding': 8}
+    #   ),  
     #dcc.Input(id='my-id', value='initial value', type='text'),
     dcc.Input(id='video-input', value='Enter Youtube video URL here', type='text', 
         style={'width': '600px'}),
     html.Div(id='video-input-div'),
 
-	dcc.Checklist(
-	        options=[
-	            {'label': 'Positive', 'value': 'NYC'},
-	            {'label': u'Negative', 'value': 'MTL'},
-	            {'label': 'Neutral', 'value': 'SF'}
-	        ],
-	        values=['NYC', 'MTL', 'SF'],
-	        style={'textAlign': 'center', 'color': colors['subtext'], 
-	        'padding': 0}
-	    ),
+    dcc.Checklist(
+            options=[
+                {'label': 'Positive', 'value': 'NYC'},
+                {'label': u'Negative', 'value': 'MTL'},
+                {'label': 'Neutral', 'value': 'SF'}
+            ],
+            values=['NYC', 'MTL', 'SF'],
+            style={'textAlign': 'center', 'color': colors['subtext'], 
+            'padding': 0}
+        ),
      #'vertical-align': 'middle'
      #html.Img(src='data:image/png;base64,{}'.format(encoded_image))
     html.H4(children='Comments for %s' % VideoName),
@@ -161,60 +162,60 @@ app.layout = html.Div(style={'backgroundColor': colors['background'],'columnCoun
 
 
     html.Div([
-		    dcc.Graph(
-		                id='pie1',       
-		                figure = {
-		                    'data': [
-		                        {
-		                            'labels': ['Negative','Neutral', "Positive"],
-		                            'values': [d1, d2, d3],
-		                            'type': 'pie',
-		                            'name': 'Video Chosen',
-		                            'marker': {'colors': ['lightskyblue', 'lightcoral', 'yellowgreen']},
-		                            'hoverinfo':'label+percent+name',
-		                        }
-		                    
-		                    ],
-		                    'layout': {
-				                'title': 'Comment Sentiment Ratios',
-				                'showlegend': True,
-				                'plot_bgcolor': colors['graph_background'],
-				                'paper_bgcolor': colors['background'],
-				                'font': {
-				                    'color': colors['text']
-				                }
-				                }
-		                }
-		            )
-		    ], style= {'width': '49%', 
-		    'display': 'inline-block', 
-		    'color': 'black'}),
+            dcc.Graph(
+                        id='pie1',       
+                        figure = {
+                            'data': [
+                                {
+                                    'labels': ['Negative','Neutral', "Positive"],
+                                    'values': [d1, d2, d3],
+                                    'type': 'pie',
+                                    'name': 'Video Chosen',
+                                    'marker': {'colors': ['lightskyblue', 'lightcoral', 'yellowgreen']},
+                                    'hoverinfo':'label+percent+name',
+                                }
+                            
+                            ],
+                            'layout': {
+                                'title': 'Comment Sentiment Ratios',
+                                'showlegend': True,
+                                'plot_bgcolor': colors['graph_background'],
+                                'paper_bgcolor': colors['background'],
+                                'font': {
+                                    'color': colors['text']
+                                }
+                                }
+                        }
+                    )
+            ], style= {'width': '49%', 
+            'display': 'inline-block', 
+            'color': 'black'}),
     
     html.Div([
-		    dcc.Graph(
-		                id='pie2',       
-		                figure = {
-							    'data': [
-							        {
-							            'x': ['MNB','SGD','LR', 'LSV', 'Bag', 'RF'],
-							            'y': [yt.mnb_acc, yt.sgd_acc, yt.sgd_acc, yt.svm_acc,  yt.bag_acc, yt.rf_acc],
-							            'type': 'bar',
-							            'marker': { 'color': ['yellowgreen', 'lightcoral',
-							               'lightskyblue', 'orange', 'purple', 'lightgreen']},
-							            'hoverinfo':'x+y',
-							        }
-							    ],
-							    'layout': {'title': 'Accuracy of Classification Models',
-							               'showlegend': False,
-							                'plot_bgcolor': colors['graph_background'],
-							                'paper_bgcolor': colors['background'],
-							                'font': {
-							                    'color': colors['text']}}
-							}
-		            )
-		    ], style= {'width': '49%', 
-		    'display': 'inline-block', 
-		    'color': colors['text']}),  
+            dcc.Graph(
+                        id='pie2',       
+                        figure = {
+                                'data': [
+                                    {
+                                        'x': ['MNB','SGD','LR', 'LSV', 'Bag', 'RF'],
+                                        'y': [yt.mnb_acc, yt.sgd_acc, yt.sgd_acc, yt.svm_acc,  yt.bag_acc, yt.rf_acc],
+                                        'type': 'bar',
+                                        'marker': { 'color': ['yellowgreen', 'lightcoral',
+                                           'lightskyblue', 'orange', 'purple', 'lightgreen']},
+                                        'hoverinfo':'x+y',
+                                    }
+                                ],
+                                'layout': {'title': 'Accuracy of Classification Models',
+                                           'showlegend': False,
+                                            'plot_bgcolor': colors['graph_background'],
+                                            'paper_bgcolor': colors['background'],
+                                            'font': {
+                                                'color': colors['text']}}
+                            }
+                    )
+            ], style= {'width': '49%', 
+            'display': 'inline-block', 
+            'color': colors['text']}),  
 
      html.H1(
         children='WordCloud of Video:',
@@ -226,8 +227,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background'],'columnCoun
         }
     ),
      html.Div([
-     	html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()))
-     	], style= {'color': colors['text'], 'textAlign': 'center'}), 
+        html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()))
+        ], style= {'color': colors['text'], 'textAlign': 'center'}), 
 
      html.H2('Live Youtube Sentiment'),
         dcc.Graph(id='live-graph', animate=True),
@@ -242,21 +243,21 @@ app.layout = html.Div(style={'backgroundColor': colors['background'],'columnCoun
 def display_content(value):
     data = [
         {
-		    'labels': ['Negative','Neutral', "Positive"],
-		    'values': [d1, d2, d3],
-		    'type': 'pie',
-		    'name': 'Video Chosen',
-		    'marker': {'colors': ['yellowgreen', 'lightcoral', 'lightskyblue']},
-		    'hoverinfo':'label+percent+name',
-		                        },
+            'labels': ['Negative','Neutral', "Positive"],
+            'values': [d1, d2, d3],
+            'type': 'pie',
+            'name': 'Video Chosen',
+            'marker': {'colors': ['yellowgreen', 'lightcoral', 'lightskyblue']},
+            'hoverinfo':'label+percent+name',
+                                },
         {{
-			'x': ['MNB','SGD','LR', 'LSV', 'Bag', 'RF'],
-			'y': [yt.mnb_acc, yt.sgd_acc, yt.sgd_acc, yt.svm_acc,  yt.bag_acc, yt.rf_acc],
-			'type': 'bar',
-			'marker': { 'color': ['lightskyblue', 'lightcoral',
-							        'yellowgreen', 'orange', 'purple', 'lightgreen']},
-			'hoverinfo':'x+y',
-							        },
+            'x': ['MNB','SGD','LR', 'LSV', 'Bag', 'RF'],
+            'y': [yt.mnb_acc, yt.sgd_acc, yt.sgd_acc, yt.svm_acc,  yt.bag_acc, yt.rf_acc],
+            'type': 'bar',
+            'marker': { 'color': ['lightskyblue', 'lightcoral',
+                                    'yellowgreen', 'orange', 'purple', 'lightgreen']},
+            'hoverinfo':'x+y',
+                                    },
         }
     ]
 
@@ -279,50 +280,11 @@ def display_content(value):
         html.Div(' '.join(get_sentences(10)))
     ])
 
+# text input callback
 @app.callback(
     Output(component_id='video-input-div', component_property='children'),
     [Input(component_id='video-input', component_property='value')]
 )
-
-# live sentiment app
-@app.callback(Output('live-graph', 'figure'),
-              events=[Event('graph-update', 'interval')])
-
-
-# text input
-
-def update_output_div(input_value):
-    return 'Conducting sentiment analysis on the "{}" video'.format(input_value)
-
-# sentiment scatter
-
-def update_graph_scatter():
-    try:
-        conn = sqlite3.connect('twitter.db')
-        c = conn.cursor()
-        df = pd.read_sql("SELECT * FROM sentiment WHERE tweet LIKE '%olympic%' ORDER BY unix DESC LIMIT 1000", conn)
-        df.sort_values('unix', inplace=True)
-        df['sentiment_smoothed'] = df['sentiment'].rolling(int(len(df)/5)).mean()
-        df.dropna(inplace=True)
-
-        X = df.unix.values[-100:]
-        Y = df.sentiment_smoothed.values[-100:]
-
-        data = plotly.graph_objs.Scatter(
-                x=X,
-                y=Y,
-                name='Scatter',
-                mode= 'lines+markers'
-                )
-
-        return {'data': [data],'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)]),
-                                                    yaxis=dict(range=[min(Y),max(Y)]),)}
-
-    except Exception as e:
-        with open('errors.txt','a') as f:
-            f.write(str(e))
-            f.write('\n')
-
 
 
 if __name__ == '__main__':
