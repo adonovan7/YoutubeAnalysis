@@ -35,7 +35,7 @@
 
 ```java
 var config = {
-	SECRET_KEY : 'AIzaSyCaMqxx3_RQXgVhS6QTmfpnFYRhoAKfvVA' 
+	SECRET_KEY : 'hfhfhfhfh12345fhfhfhfhfhfhf' 
 }
 ```
 
