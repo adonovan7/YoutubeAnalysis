@@ -1,12 +1,14 @@
 #-*- coding: utf-8 -*-
 
-
 import json
 import sys
 from urllib import *
 import argparse
 from urllib.parse import urlparse, urlencode, parse_qs
 from urllib.request import  urlopen
+import os
+
+sys.path.insert(0, '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/') # change directory
 import config
 
 from nltk.tokenize import sent_tokenize, word_tokenize
@@ -324,10 +326,16 @@ for i in corpus:
     #i = unicode(i, errors='ignore')
     print(i, ", ")
 '''
+#for i in corpus:
+    #i = i.encode('ascii', 'ignore').decode('ascii')
+    #print(i, "@@@")
+    #print(i.decode('utf-8'), "@@@") 
+    #a = safeStr(i)
+    #print(a.encode('utf-8'), "@@@")
+    
 for i in corpus:
-    a = safeStr(i)
-    print(a.encode('utf-8'), ",")
-
+    i = i.encode('ascii', 'ignore').decode('ascii')
+    print(str(i), '@@@')
 
 '''
 Sources: 

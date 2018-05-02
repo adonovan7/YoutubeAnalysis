@@ -1,5 +1,4 @@
 '''
-!/usr/bin/python3
 -*- coding: utf-8 -*-
 ~~~ Andie Donovan~~~~
 '''
@@ -18,11 +17,17 @@ def mySubprocess(vidName, vidLink):
 
 
 def VideoURLfinder():
-	print("Please enter a video for analysis.")
-	print("To select a video, please type 'OKGO', 'Trump', or 'Soccer'")
+	print("Please enter either a YouTube video URL or one of the pre-selected videos for analysis.")
+	print("To select a tutorial video, please type 'OKGO', 'Trump', or 'Soccer'")
+	print("Otherwise, to input your own URL, please type 'URL and press enter'")
 	next = input("> ")
 	next = next.lower()
-	if next == "okgo":
+	if next == "url":
+		print("Please paste URL here:")
+		next = input("> ")
+		url_link = next
+		mySubprocess("personal", url_link)
+	elif next == "okgo":
 		okgo = "https://www.youtube.com/watch?v=LgmxMuW6Fsc"
 		mySubprocess(next, okgo)
 	elif next == "trump":

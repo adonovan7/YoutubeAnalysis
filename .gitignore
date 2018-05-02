@@ -1,6 +1,5 @@
-secret_key.py
 ProjectNotes.md
 venv
 .ipynb_checkpoints
 /__pycache__
-config.js
+config.py
