@@ -19,7 +19,11 @@ import Variables as yt
 # https://dash.plot.ly/interactive-graphing for buttons to actually work
 # https://www.youtube.com/watch?v=yfWJXkySfe0
 
-df = yt.df.ix[:, ['label', 'comment']]
+# df = yt.df.ix[:, ['label', 'comment']]
+
+path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
+sys.path.insert(0, path +'scripts')
+import UserDataModel as UD
 
 '''
 def update_pie_value(video):

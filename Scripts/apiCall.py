@@ -8,7 +8,9 @@ from urllib.parse import urlparse, urlencode, parse_qs
 from urllib.request import  urlopen
 import os
 
-sys.path.insert(0, '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/') # change directory
+path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
+
+sys.path.insert(0, path) # change directory
 import config
 
 from nltk.tokenize import sent_tokenize, word_tokenize
@@ -332,7 +334,11 @@ for i in corpus:
     #print(i.decode('utf-8'), "@@@") 
     #a = safeStr(i)
     #print(a.encode('utf-8'), "@@@")
-    
+ 
+filepath = path + "data/data.csv"
+f = open(filepath, "w+")
+f.close()
+
 for i in corpus:
     i = i.encode('ascii', 'ignore').decode('ascii')
     print(str(i), '@@@')

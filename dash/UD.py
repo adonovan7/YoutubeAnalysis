@@ -102,11 +102,12 @@ models = ['lr', 'mnb', 'svm', 'rf', 'knn']
 labels = ['label_' + str(models[i]) for i in range(0,len(models))]
 predictions = [str(models[i])+"_predict" for i in range(0,len(models))]
 d = {}
+
 initModels = [lr, mnb, svm, rf, knn]
+
 for i in range(0,5):
     initModels[i].fit(xtrain, Y_train)
     d[predictions[i]] = initModels[i].predict(df_trans)
-
 
 Table = pd.DataFrame(columns=['comment', 'label_lr', 'label_mnb', 'label_svm', 'label_rf', 'label_knn'])
 for i in range(0, len(models)):
@@ -114,9 +115,14 @@ for i in range(0, len(models)):
 
 Table['comment'] = df2['comment']
 
-#Ratios = pd.DataFrame(columns=['label_lr', 'label_mnb', 'label_svm', 'label_rf', 'label_knn'], 
-#                      index=['Positive', 'Neutral', 'Negative'])
-Ratios = pd.DataFrame(columns=['label_lr', 'label_mnb', 'label_svm', 'label_rf', 'label_knn'], index=range(0,3))
+Ratios = pd.DataFrame(columns=['label_lr', 'label_mnb', 'label_svm', 'label_rf', 'label_knn'], 
+    index=range(0,3))
+
+for i in range(0, len(models)):
+    Table[labels[i]] = d[predictions[i]]
+
+Table['comment'] = df2['comment']
+
 
 def RatioFinder(model): 
     pos = Table[Table[model]== 1.0]
@@ -140,4 +146,5 @@ for i in range(0,3):
             Ratios.iloc[i,j] = RatioFinder(labels[j])[i]
 
 
-
+all_models = pd.DataFrame(columns=['average'], index=range(0,3))
+all_models["average"]= df.mean(axis=1)
