@@ -17,8 +17,12 @@ import base64
 
 import UD as UD
 
-
 path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
+
+os.chdir(path + 'images/')
+image_filename = 'wordcloud.png' # replace with your own image
+encoded_image = base64.b64encode(open(image_filename, 'rb').read())
+
 os.chdir(path + 'dash/')
 df = UD.Ratios
 all_models = UD.all_models
@@ -30,9 +34,9 @@ image_filename = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBr
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 
 
-image_directory = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png'
-list_of_images = [os.path.basename(x) for x in glob.glob('{}*.png'.format(image_directory))]
-static_image_route = '/static/'
+#image_directory = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png'
+#list_of_images = [os.path.basename(x) for x in glob.glob('{}*.png'.format(image_directory))]
+#static_image_route = '/static/'
 
 colors = {
     'background': 'white',
@@ -111,6 +115,11 @@ def update_graph(Manager):
             title='Sentiment Ratios as Predicted by {}'.format(Manager)
             )
     }
+
+my_css_url = "https://unpkg.com/normalize.css@5.0.0"
+app.css.append_css({
+    "external_url": my_css_url
+})
 
 
 if __name__ == '__main__':
