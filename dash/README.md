@@ -10,4 +10,4 @@ The pie chart represents the percent of the comments that were labeled as "posit
 The bar chart shows the top words in the comment corpus set and can be filtered to show top words in positive comments, negative comments, and neutral comments. This is useful for observing which words may have had the biggest impact on the classification models. 
 
 
-![Dashboard](https://github.com/adonovan7/YoutubeAnalysis/blob/master/images/DashScreenShot.png)
+![Dashboard](https://github.com/adonovan7/YoutubeAnalysis/blob/master/images/YouTubeDash.gif)
