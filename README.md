@@ -13,7 +13,7 @@
 **APIs:** Google Development's Youtube API <br>
 
 ## Dashboard (In Progress): 
-![dashboard screenshot](https://github.com/UCSB-dataScience-ProjectGroup/youtube/blob/Andies-Branch/images/YouTubeDash.gif)
+![dashboard screenshot](https://github.com/adonovan7/YoutubeAnalysis/blob/master/images/YouTubeDash.gif)
 
 ### Table of Contents: 
 1. [Youtube API Call](https://github.com/adonovan7/YoutubeAnalysis/blob/master/apiCall.py)
