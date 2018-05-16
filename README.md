@@ -62,7 +62,7 @@ var config = {
 - [X] Finish Dashboard
 	* add table of comments
 - [ ] Improve API call output format (fix encoding issues)
-- [NA] Add cross validation, neural nets, and grid search to Machine Learning notebook
+- [N] Add cross validation, neural nets, and grid search to Machine Learning notebook
 - [ ] Add gradient descent, fix class imbalance
 - [ ] Add n-grams
-- [ ] Use AWS to improve model accuracy
+- [N] Use AWS + grid search to improve model accuracy
