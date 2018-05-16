@@ -1,21 +1,9 @@
-import dash
-from dash.dependencies import Input, Output, Event
-import dash_core_components as dcc
-import dash_html_components as html
-import plotly
-
-import flask
-import glob
-
-import plotly.plotly as py
-import plotly.graph_objs as go
-import sys
-import os
-import csv
-import pandas as pd
-import base64
-
-import UD as UD
+import dash; from dash.dependencies import Input, Output, Event
+import dash_core_components as dcc; import dash_html_components as html
+import plotly; import flask; import glob; import plotly.plotly as py
+import plotly.graph_objs as go; import sys; import os; import csv
+import pandas as pd; import base64
+import Classifier as UD
 
 path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
 
@@ -24,10 +12,16 @@ image_filename = 'wordcloud.png' # replace with your own image
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 
 os.chdir(path + 'dash/')
-df = UD.Ratios
-df2 = UD.df
-all_models = UD.all_models
+data = UD.data # user loaded dataset
+df = UD.df # labeled dataset
+all_models = UD.all_models # table of average model results for % pos, neg, neu
+Ratios = UD.Ratios # % pos, neg, neu for each model
+Table = UD.Table # classification for each comment by model
+
 model_options = ['label_lr', 'label_mnb', 'label_svm', 'label_rf', 'label_knn']
+
+mydict = {'label_lr': 'Logistic Regression', 'label_mnb':'Multinomial Naive Bayes', 
+'label_svm':'Support Vector Machine', 'label_rf': 'Random Forest', 'label_knn': 'K-Nearest Neighbor'}
 
 #img_file = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png'
 #encoded_image = base64.b64encode(open(img_file, 'rb').read())
@@ -58,23 +52,18 @@ colors2 = ['#B8F7D4', '#835AF1', '#7FA6EE', '#FEBFB3']
 # #B8F7D4 green
 
 
-import numpy as np
-df2["com_remv"] = df2["com_remv"].apply(', '.join)
-df2["com_remv"] = df2["com_remv"].str.replace(",","").astype(str)
+# extracting comments for each label
+positive = UD.positive
+negative = UD.negative
+neutral = UD.neutral
 
-positive = df2[df2["label"]==1]
-positive = positive["com_remv"]
-negative = df2[df2["label"]==-1]
-negative = negative["com_remv"]
-neutral = df2[df2["label"]==0]
-neutral = neutral["com_remv"]
 
-most_freq_pos = pd.Series(' '.join(positive).lower().split()).value_counts()[:10]
-most_freq_neg = pd.Series(' '.join(negative).lower().split()).value_counts()[:10]
-most_freq_neu = pd.Series(' '.join(neutral).lower().split()).value_counts()[:10]
+# most frequent words in each label
+most_freq_pos = UD.most_freq_pos
+most_freq_neg = UD.most_freq_neg
+most_freq_neu = UD.most_freq_neu
 
 # word frequency bar plot
-
 Positive = go.Bar(
             x = most_freq_pos.index,
             y = most_freq_pos.values,
@@ -124,6 +113,14 @@ updatemenus = list([
                 )
         ])
 
+def generate_table(dataframe, max_rows=10):
+    return html.Table(
+        [html.Tr([html.Th(col) for col in dataframe.columns])] +
+        [html.Tr([
+            html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+        ]) for i in range(min(len(dataframe), max_rows))]
+    )
+
 app = dash.Dash()
 
 '''
@@ -163,13 +160,13 @@ app.layout = html.Div([
     html.Div(
         [
             dcc.Dropdown(
-                id="Manager",
+                id="MyModel",
                 options=[{
-                    'label': i,
+                    'label': mydict.get(str(i)),
                     'value': i
                 } for i in model_options],
                 value='All Models'),
-            dcc.Graph(id='funnel-graph')
+            dcc.Graph(id='pie-graph')
         ],
             style={
                 'float': 'left',
@@ -181,7 +178,7 @@ app.layout = html.Div([
 # Bar Chart; Right
     html.Div([
         dcc.Graph(
-                id='example-graph',
+                id='bar-graph',
                 figure={
                     'data': [Positive, Neutral, Negative],
                     'layout': go.Layout(title='Most Common Words', barmode='stack', showlegend=True,
@@ -194,32 +191,67 @@ app.layout = html.Div([
                 'height': '500px'
                 }
                 )
-            ])
-
+            ]), 
     #html.H2("WordCloud"),
     #html.Img(src='data:image/png;base64,{}'.format(encoded_image)),
     
     #html.Img(src='/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png', 
     #    style={'width': '500px'})
     #html.Img(src='data:image/png;base64,{}'.format(encoded_image))
-    
+    html.Div([
+        dcc.Dropdown(
+            id='my-table-dropdown',
+            options=[{'label': i, 'value': i}
+            for i in ['All Comments', 'Positive', 'Negative', 'Neutral']
+            ],value=None),
+        html.Div(id='table-container')
+        ], 
+            style={'width': '49%', 
+            'display': 'inline-block', 
+            'padding': '0 20'}
+            ),
 ])
 
 '''
 -----------------------------------------------------------------
 '''
+'''
+    html.Div([
+        dcc.Graph(
+            id='bubble', 
+            
+            figure={
+            'data': go.Scatter(
+                x = most_freq_neu.index,
+                y = -1.0,
+                name="Neutral",
+                mode='markers',
+                marker=dict(
+                    size=most_freq_neu.values, 
+                    color='#7FA6EE'))                
+            }, 
 
+            style={
+                'float': 'right',
+                'width': '55.00%',
+                'padding': '42px 0px 10px 10px',
+                'height': '500px'
+                }
+            )
+        ])
+'''
 
+# pie chart
 @app.callback(
-    dash.dependencies.Output('funnel-graph', 'figure'),
-    [dash.dependencies.Input('Manager', 'value')])
-def update_graph(Manager):
-    if Manager == "All Models":
+    dash.dependencies.Output('pie-graph', 'figure'),
+    [dash.dependencies.Input('MyModel', 'value')])
+def update_graph(MyModel):
+    if MyModel == "All Models":
         values = [.2,.3,.5]
     else:
-        values = list(df[str(Manager)])
+        values = list(Ratios[str(MyModel)])
 
-    trace = go.Pie(labels=["Positive", "Negative","Neutral"], values=values, 
+    trace = go.Pie(labels=["Positive", "Negative","Neutral"], values=values, hole=.2,
         name='MyModel', hoverinfo='label+percent', 
         textinfo='label + value',textfont=dict(size=20),
         marker=dict(colors= colors2))
@@ -228,15 +260,28 @@ def update_graph(Manager):
         'data': [trace],
         'layout':
         go.Layout(
-            title='Sentiment Ratios as Predicted by {}'.format(Manager)
+            title='Sentiment Ratios as Predicted by {}'.format(MyModel)
             )
     }
 
-my_css_url = "https://github.com/adonovan7/YoutubeAnalysis/blob/master/dash/dash.css"
+'''my_css_url = "https://github.com/adonovan7/YoutubeAnalysis/blob/master/dash/dash.css"
 app.css.append_css({
     "external_url": my_css_url
 })
+'''
 
+# table of comments 
+@app.callback(
+    dash.dependencies.Output('table-container', 'children'), 
+    [dash.dependencies.Input('my-table-dropdown', 'value')])
+def table_update(value):
+    simple_df = data[["label","comment"]]
+    selected = {"Positive": 1.0, "Neutral": 0.0, "Negative": -1.0}
+    if value != "All Comments":
+        filtered_df = simple_df[simple_df["label"]==selected.get(value)]
+    else: 
+         filtered_df = simple_df
+    return generate_table(filtered_df)
 
 if __name__ == '__main__':
     app.run_server(debug=True)

@@ -13,7 +13,7 @@
 **APIs:** Google Development's Youtube API <br>
 
 ## Dashboard (In Progress): 
-![dashboard screenshot](https://github.com/UCSB-dataScience-ProjectGroup/youtube/blob/Andies-Branch/images/Dashboard_Screenshot.png)
+![dashboard screenshot](https://github.com/UCSB-dataScience-ProjectGroup/youtube/blob/Andies-Branch/images/DashScreenShot.png)
 
 ### Table of Contents: 
 1. [Youtube API Call](https://github.com/adonovan7/YoutubeAnalysis/blob/master/apiCall.py)
@@ -59,7 +59,10 @@ var config = {
 ### TO DO
 - [X] Create a more integrated/ cohesive workflow between scripts
 - [X] Run the ApiCall with user inputted video
-- [ ] Finish Dashboard
+- [X] Finish Dashboard
+	* add table of comments
 - [ ] Improve API call output format (fix encoding issues)
-- [ ] Add cross validation, neural nets, and grid search to Machine Learning notebook
+- [NA] Add cross validation, neural nets, and grid search to Machine Learning notebook
+- [ ] Add gradient descent, fix class imbalance
+- [ ] Add n-grams
 - [ ] Use AWS to improve model accuracy
