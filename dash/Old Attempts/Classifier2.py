@@ -1,23 +1,18 @@
 # set path
-import os
-import pandas as pd
-import csv; import numpy as np
-
 path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
 os.chdir(path) # change directory
 
-# load in data
-
+# load in data 
 # training data
 okgo = pd.read_csv('data/OKGOcomments.csv', delimiter=";", skiprows=2, encoding='latin-1', engine='python') # read in the data
-blogs = pd.read_csv('data/Kagel_social_media_blogs.csv', delimiter="@@@", skiprows=2, encoding='latin-1', engine='python') # read in the data
+blogs = pd.read_csv('data/Kagel_social_media_blogs.csv', delimiter=";", skiprows=2, encoding='latin-1', engine='python') # read in the data
 tweets = pd.read_csv('data/full-corpus.csv', delimiter=",", skiprows=2, encoding='latin-1', engine='python') # read in the data
-# test data:
-trump = pd.read_csv('data/trump.csv', delimiter="@@@", skiprows=2, encoding='utf-8', error_bad_lines=False, engine='python')
+# test data: 
+trump = pd.read_csv('data/trump.csv', delimiter=";", skiprows=2, encoding='utf-8', error_bad_lines=False, engine='python') 
 # combine training dataframes
-df = pd.read_csv('data/data.csv', delimiter="@@@", skiprows=2, encoding='utf-8', engine='python')
+df = pd.read_csv('data/data.csv', delimiter=";", skiprows=2, encoding='utf-8', engine='python') 
 
-# clean dataframes
+# clean dataframes 
 tweets = tweets.drop(['Topic', 'TweetId', "TweetDate"], axis = 1).dropna()
 tweets.columns = ["label", "comment"]
 tweets.label = tweets.label.replace({'positive': '1.0', 'negative':'-1.0', 'neutral': '0.0', 'irrelevant': '0.0'}, regex=True)
@@ -32,14 +27,14 @@ df.columns = ["comment", "label"]
 trump.columns = ["label", "comment"]
 
 # clean up textual data (remove symbols)
-df["comment"]= df["comment"].astype(str)
-trump["comment"]= trump["comment"].astype(str)
+df["comment"]= df["comment"].astype(str) 
+trump["comment"]= trump["comment"].astype(str) 
 
 def cleanerFn(b):
     for row in range(len(b)):
         line = b.loc[row, "comment"]
         b.loc[row,"comment"] = re.sub("[^a-zA-Z]", " ", line)
-
+        
 def cleanerFn2(b):
     for row in range(len(b)):
         line = b.iloc[row, 1]
@@ -48,26 +43,6 @@ def cleanerFn2(b):
 cleanerFn(df)
 cleanerFn2(data)
 cleanerFn2(trump)
-
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.linear_model import LogisticRegression
-from sklearn import svm # support vector machine
-from sklearn import metrics # for accuracy/ precision
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import SGDClassifier # Stochastic Gradient Descent
-from sklearn.neighbors import KNeighborsClassifier # k-NN ensemble method
-from sklearn.ensemble import RandomForestClassifier
-
-import nltk
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.corpus import stopwords
-nltk.download('stopwords')
-nltk.download('wordnet')
-from nltk.stem import PorterStemmer
-import sklearn # machine learning
-from sklearn.model_selection import train_test_split # splitting up data
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
 
 sw = stopwords.words('english')
 ps = PorterStemmer()
@@ -86,10 +61,8 @@ df = nlpFunction(df)
 data = nlpFunction(data)
 trump = nlpFunction(trump)
 
-X_train = data["com_stem_str"]
-X_test = trump["com_stem_str"]
-Y_train = data["label"]
-Y_test = trump["label"]
+X_train = data["com_stem_str"]; X_test = trump["com_stem_str"]
+Y_train = data["label"]; Y_test = trump["label"]
 X_user = df["com_stem_str"]
 
 tfidf = TfidfVectorizer()
@@ -98,12 +71,6 @@ xtest = tfidf.transform(X_test) # transform test data from fitted transformer
 xuser = tfidf.transform(X_user)
 data_trans= tfidf.transform(data["com_stem_str"]) # transform entire dataset for cross validation
 df_trans = tfidf.transform(df["com_stem_str"])
-
-'''X_train, X_test, Y_train, Y_test = train_test_split(
-                                    df["com_stem_str"], df["label"],
-                                    test_size=0.25,
-                                    random_state=42)'''
-
 
 # running models
 from sklearn.svm import SVC
@@ -132,20 +99,20 @@ for i in range(0, len(models)):
 Table["comment"] = df["comment"]
 
 # Create table of predicted sentiment ratios
-Ratios = pd.DataFrame(columns=['label_lr', 'label_mnb', 'label_svm', 'label_rf', 'label_knn'],
+Ratios = pd.DataFrame(columns=['label_lr', 'label_mnb', 'label_svm', 'label_rf', 'label_knn'], 
     index=range(0,3))
-def RatioFinder(model):
+def RatioFinder(model): 
     pos = Table[Table[model]== 1.0]
     neg = Table[Table[model]== -1.0]
     neu = Table[Table[model]== 0.0]
 
     pos_len = len(pos); neg_len = len(neg); neu_len = len(neu)
     total = pos_len + neg_len + neu_len
-
+    
     neg_ratio = round(neg_len / float(total), 2) * 100
     pos_ratio = round(pos_len / float(total), 2) * 100
     neu_ratio = round(neu_len / float(total), 2) * 100
-
+    
     ratios = [pos_ratio, neu_ratio, neg_ratio]
     return ratios
 
@@ -165,11 +132,7 @@ df.label = Table["Prediction"]
 df["com_remv"] = df["com_remv"].apply(', '.join)
 df["com_remv"] = df["com_remv"].str.replace(",","").astype(str)
 
-'''df_words = df[["label","com_remv"]]
-positive = df_words[df_words["label"]==1.0]
-neutral = df_words[df_words["label"]==0.0]
-negative = df_words[df_words["label"]==-1.0]
-'''
+
 p = df[df["label"]==1]
 positive = p["com_remv"]
 n = df[df["label"]==-1]

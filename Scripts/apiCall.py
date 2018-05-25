@@ -7,6 +7,7 @@ import argparse
 from urllib.parse import urlparse, urlencode, parse_qs
 from urllib.request import  urlopen
 import os
+import re
 
 path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
 
@@ -312,7 +313,7 @@ if __name__ == '__main__':
     main()
 
 #script accepts bytes from the outside world, but processing should be done in unicode. Output in bytes again.
-#In the 1980s, almost all personal computers were 8-bit, meaning that bytes could hold values ranging from 0 to 255. 
+#In the 1980s, almost all personal computers were 8-bit, meaning that bytes could hold values ranging from 0 to 255.
 #ASCII codes only went up to 127, so some machines assigned values between 128 and 255 to accented characters.
 # https://docs.python.org/2.7/howto/unicode.html
 def safeStr(obj):
@@ -321,7 +322,7 @@ def safeStr(obj):
         return obj.encode('ascii', 'ignore').decode('ascii')
     except: return ""
 
-'''  
+'''
 for i in corpus:
     #i = i.encode('utf-8', errors='ignore')
     i = i.encode('ascii', 'ignore').decode('ascii')
@@ -331,19 +332,20 @@ for i in corpus:
 #for i in corpus:
     #i = i.encode('ascii', 'ignore').decode('ascii')
     #print(i, "@@@")
-    #print(i.decode('utf-8'), "@@@") 
+    #print(i.decode('utf-8'), "@@@")
     #a = safeStr(i)
     #print(a.encode('utf-8'), "@@@")
- 
+
 filepath = path + "data/data.csv"
 f = open(filepath, "w+")
 f.close()
 
 for i in corpus:
     i = i.encode('ascii', 'ignore').decode('ascii')
-    print(str(i), '@@@')
+    i = re.sub(r'([^0-9A-Za-z \t])', '', i)
+    print(str(i), ',')
 
 '''
-Sources: 
+Sources:
 * This code was closely adapted from an api call script by Chirag Rathod: chiragr83@gmail.com
 '''

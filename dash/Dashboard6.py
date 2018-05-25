@@ -1,9 +1,18 @@
-import dash; from dash.dependencies import Input, Output, Event
-import dash_core_components as dcc; import dash_html_components as html
-import plotly; import flask; import glob; import plotly.plotly as py
-import plotly.graph_objs as go; import sys; import os; import csv
-import pandas as pd; import base64
+import dash
+from dash.dependencies import Input, Output, Event
+import dash_core_components as dcc
+import dash_html_components as html
+import plotly
+import flask
+import glob
+import plotly.plotly as py
+import plotly.graph_objs as go
+import sys
+import csv
+import pandas as pd
+import base64
 import Classifier as UD
+import os
 
 path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
 
@@ -20,7 +29,7 @@ Table = UD.Table # classification for each comment by model
 
 model_options = ['label_lr', 'label_mnb', 'label_svm', 'label_rf', 'label_knn']
 
-mydict = {'label_lr': 'Logistic Regression', 'label_mnb':'Multinomial Naive Bayes', 
+mydict = {'label_lr': 'Logistic Regression', 'label_mnb':'Multinomial Naive Bayes',
 'label_svm':'Support Vector Machine', 'label_rf': 'Random Forest', 'label_knn': 'K-Nearest Neighbor'}
 
 #img_file = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png'
@@ -38,8 +47,8 @@ colors = {
     'graph_background': 'white',
     'text': 'purple',
     'subtext': 'black',
-    'blue_pal': 'lightskyblue', 
-    'red_pal': 'lightroal', 
+    'blue_pal': 'lightskyblue',
+    'red_pal': 'lightroal',
     'yellow_pal': 'yellowgreen',
     'grey_pal': 'lightgrey'
 }
@@ -84,10 +93,10 @@ Negative = go.Bar(
         )
 
 updatemenus = list([
-            
+
             dict(type="buttons",
                  active=-1,
-                 buttons=list([   
+                 buttons=list([
                     dict(label = 'Positive',
                          method = 'update',
                          args = [{'visible': [True, False, False]},
@@ -109,7 +118,7 @@ updatemenus = list([
                                  {'title': 'All Comments'}]
                         )
                  ]),
-                    pad= {'r': 15, 't': 10}, 
+                    pad= {'r': 15, 't': 10},
                 )
         ])
 
@@ -129,19 +138,19 @@ app = dash.Dash()
 
 '''
 # Video Input Line
-    dcc.Input(id='video-input', value='Enter Youtube video URL here', type='text', 
+    dcc.Input(id='video-input', value='Enter Youtube video URL here', type='text',
         style={
-                'position': 'relative', 
-                'width': '600px', 
-                'float': 'center', 
+                'position': 'relative',
+                'width': '600px',
+                'float': 'center',
                 'display': 'inline-block'},
                 ),
 
-    html.Div(id='video-input-div', 
+    html.Div(id='video-input-div',
         style={
-                'position': 'relative', 
-                'width': '600px', 
-                'float': 'center', 
+                'position': 'relative',
+                'width': '600px',
+                'float': 'center',
                 'display': 'inline-block'},
                 ),
 '''
@@ -149,7 +158,7 @@ app = dash.Dash()
 app.layout = html.Div([
 
 # Header
-    html.H1(children='A YouTube Web App', 
+    html.H1(children='A YouTube Web App',
         style={
             'padding': '10px',
             'text-align': 'center',
@@ -191,11 +200,11 @@ app.layout = html.Div([
                 'height': '500px'
                 }
                 )
-            ]), 
+            ]),
     #html.H2("WordCloud"),
     #html.Img(src='data:image/png;base64,{}'.format(encoded_image)),
-    
-    #html.Img(src='/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png', 
+
+    #html.Img(src='/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png',
     #    style={'width': '500px'})
     #html.Img(src='data:image/png;base64,{}'.format(encoded_image))
     html.Div([
@@ -205,9 +214,9 @@ app.layout = html.Div([
             for i in ['All Comments', 'Positive', 'Negative', 'Neutral']
             ],value=None),
         html.Div(id='table-container')
-        ], 
-            style={'width': '49%', 
-            'display': 'inline-block', 
+        ],
+            style={'width': '49%',
+            'display': 'inline-block',
             'padding': '0 20'}
             ),
 ])
@@ -218,8 +227,8 @@ app.layout = html.Div([
 '''
     html.Div([
         dcc.Graph(
-            id='bubble', 
-            
+            id='bubble',
+
             figure={
             'data': go.Scatter(
                 x = most_freq_neu.index,
@@ -227,9 +236,9 @@ app.layout = html.Div([
                 name="Neutral",
                 mode='markers',
                 marker=dict(
-                    size=most_freq_neu.values, 
-                    color='#7FA6EE'))                
-            }, 
+                    size=most_freq_neu.values,
+                    color='#7FA6EE'))
+            },
 
             style={
                 'float': 'right',
@@ -252,7 +261,7 @@ def update_graph(MyModel):
         values = list(Ratios[str(MyModel)])
 
     trace = go.Pie(labels=["Positive", "Negative","Neutral"], values=values, hole=.2,
-        name='MyModel', hoverinfo='label+percent', 
+        name='MyModel', hoverinfo='label+percent',
         textinfo='label + value',textfont=dict(size=20),
         marker=dict(colors= colors2))
 
@@ -270,16 +279,16 @@ app.css.append_css({
 })
 '''
 
-# table of comments 
+# table of comments
 @app.callback(
-    dash.dependencies.Output('table-container', 'children'), 
+    dash.dependencies.Output('table-container', 'children'),
     [dash.dependencies.Input('my-table-dropdown', 'value')])
 def table_update(value):
     simple_df = data[["label","comment"]]
     selected = {"Positive": 1.0, "Neutral": 0.0, "Negative": -1.0}
     if value != "All Comments":
         filtered_df = simple_df[simple_df["label"]==selected.get(value)]
-    else: 
+    else:
          filtered_df = simple_df
     return generate_table(filtered_df)
 

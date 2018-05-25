@@ -66,3 +66,38 @@ var config = {
 - [ ] Add gradient descent, fix class imbalance
 - [ ] Add n-grams
 - [N] Use AWS + grid search to improve model accuracy
+
+
+
+part-of-speech (POS) tagger, the named entity recognizer (NER), the parser, the coreference resolution system, and the sentiment analysis tools
+Stanford CoreNLP, CoreNLP, LingPipe and SentiWordNet
+
+recursive deep learning
+sentiment treebank
+
+base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, mark up the structure of sentences in terms of phrases and syntactic dependencies, indicate which noun phrases refer to the same entities, indicate sentiment, extract particular or open-class relations between entity mentions, get the quotes people said, etc.
+
+ the part-of-speech (POS) tagger, the named entity recognizer (NER), the parser, the coreference resolution system, sentiment analysis, bootstrapped pattern learning, and the open information extraction tools
+
+ https://stanfordnlp.github.io/CoreNLP/
+
+
+ sentiment analysis: polarity analysis,  categorisation, scale on emotion
+
+ Affective Norms for English Words, wordnet, RapidMiner or ViralHeat
+
+
+topic modeling: 
+ latent dirichlet allocation, where words are automatically clustered into topics, with a mixture of topics in each document
+  probabilistic latent semantic indexing, which models co-occurrence data using probability.
+
+ Dan Sullivan:
+  “The idea there is you train a bunch of classifiers and then essentially they vote on it and you take the majority answer,” he said. “Heterogeneous ensemble algorithms use a combination of different kinds. So you might take a SVM [support vector machine], a perceptron, a nearest centroid, a naïve bayes [cluster classifier] and combine those results.
+
+  what accuracy score to aim for in terms of precision and recall is 0.8 or above
+
+  TF–IDF can be a “crude” analytics practice because it throws away a lot of information on syntax and words that are semantically similar, such as hotel and motel.
+
+
+  conditional random fields for NER
+  event extraction: Alan Ritter and Sam Clark
