@@ -1,25 +1,15 @@
-import dash
+import dash; import os; import sys; import csv
 from dash.dependencies import Input, Output, Event
-import dash_core_components as dcc
-import dash_html_components as html
-import plotly
+import dash_core_components as dcc; import dash_html_components as html
+import plotly; import flask; import glob; import plotly.plotly as py
+import plotly.graph_objs as go; import pandas as pd; import base64
+import Classifier as UD
 import flask
 import glob
-import plotly.plotly as py
-import plotly.graph_objs as go
-import sys
-import csv
-import pandas as pd
-import base64
-import Classifier as UD
 import os
 
+
 path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
-
-os.chdir(path + 'images/')
-image_filename = 'wordcloud.png' # replace with your own image
-encoded_image = base64.b64encode(open(image_filename, 'rb').read())
-
 os.chdir(path + 'dash/')
 data = UD.data # user loaded dataset
 df = UD.df # labeled dataset
@@ -27,45 +17,20 @@ all_models = UD.all_models # table of average model results for % pos, neg, neu
 Ratios = UD.Ratios # % pos, neg, neu for each model
 Table = UD.Table # classification for each comment by model
 
-model_options = ['label_lr', 'label_mnb', 'label_svm', 'label_rf', 'label_knn']
+model_options = ['label_mnb', 'label_lr', 'label_xgb']
 
-mydict = {'label_lr': 'Logistic Regression', 'label_mnb':'Multinomial Naive Bayes',
-'label_svm':'Support Vector Machine', 'label_rf': 'Random Forest', 'label_knn': 'K-Nearest Neighbor'}
+#mydict = {'label_lr': 'Logistic Regression', 'label_mnb':'Multinomial Naive Bayes',
+#'label_svm':'Support Vector Machine', 'label_rf': 'Random Forest', 'label_knn': 'K-Nearest Neighbor'}
 
-#img_file = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png'
-#encoded_image = base64.b64encode(open(img_file, 'rb').read())
-image_filename = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png' # replace with your own image
-encoded_image = base64.b64encode(open(image_filename, 'rb').read())
+mydict = {'label_mnb':'Multinomial Naive Bayes','label_lr': 'Logistic Regression', 'label_xgb': 'Extreme Grandient Boost'}
 
-
-#image_directory = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png'
-#list_of_images = [os.path.basename(x) for x in glob.glob('{}*.png'.format(image_directory))]
-#static_image_route = '/static/'
-
-colors = {
-    'background': 'white',
-    'graph_background': 'white',
-    'text': 'purple',
-    'subtext': 'black',
-    'blue_pal': 'lightskyblue',
-    'red_pal': 'lightroal',
-    'yellow_pal': 'yellowgreen',
-    'grey_pal': 'lightgrey'
-}
-
-# colors2 = ['#FEBFB3', '#E1396C', '#96D38C', '#D0F9B1']
-colors2 = ['#B8F7D4', '#835AF1', '#7FA6EE', '#FEBFB3']
-
-# #835AF1 dark blue
-# #7FA6EE light blue
-# #B8F7D4 green
-
-
+#colorPalatte= {'positive':'#ef5851', 'neutral': '#cae29a', 'negative':'#437f7c', 'bk':'#c3d8d7', 'white':'#ffffff'}
+colorPalatte= {'positive':'#c3d8d7', 'neutral': '#437f7c', 'negative':'#304948', 'bk':'#c3d8d7', 'white':'#ffffff'}
+colorP = ['#c3d8d7', '#437f7c', '#304948']
 # extracting comments for each label
 positive = UD.positive
 negative = UD.negative
 neutral = UD.neutral
-
 
 # most frequent words in each label
 most_freq_pos = UD.most_freq_pos
@@ -77,19 +42,19 @@ Positive = go.Bar(
             x = most_freq_pos.index,
             y = most_freq_pos.values,
             name="Positive",
-            marker=dict(color='#B8F7D4')
+            marker=dict(color=colorPalatte["positive"])
         )
 Neutral = go.Bar(
             x = most_freq_neu.index,
             y = most_freq_neu.values,
             name="Neutral",
-            marker=dict(color='#7FA6EE')
+            marker=dict(color=colorPalatte["neutral"])
         )
 Negative = go.Bar(
             x = most_freq_neg.index,
             y = most_freq_neg.values,
             name="Negative",
-            marker=dict(color='#835AF1')
+            marker=dict(color=colorPalatte["negative"])
         )
 
 updatemenus = list([
@@ -130,39 +95,22 @@ def generate_table(dataframe, max_rows=10):
         ]) for i in range(min(len(dataframe), max_rows))]
     )
 
+
+image_directory = path + 'dash/images/'
+list_of_images = [os.path.basename(x) for x in glob.glob('{}*.png'.format(image_directory))]
+static_image_route = '/static/'
+
+
 app = dash.Dash()
-
-'''
------------------------------------------------------------------
-'''
-
-'''
-# Video Input Line
-    dcc.Input(id='video-input', value='Enter Youtube video URL here', type='text',
-        style={
-                'position': 'relative',
-                'width': '600px',
-                'float': 'center',
-                'display': 'inline-block'},
-                ),
-
-    html.Div(id='video-input-div',
-        style={
-                'position': 'relative',
-                'width': '600px',
-                'float': 'center',
-                'display': 'inline-block'},
-                ),
-'''
 
 app.layout = html.Div([
 
 # Header
-    html.H1(children='A YouTube Web App',
+    html.H1(children='YouTube Comment Analyzer',
         style={
-            'padding': '10px',
+            'padding': '8px',
             'text-align': 'center',
-            'font-size': '40px'}
+            'font-size': '50px'}
         ),
 
 # Pie Chart
@@ -180,7 +128,7 @@ app.layout = html.Div([
             style={
                 'float': 'left',
                 'width': '40.00%',
-                'padding': '10px 10px 10px 0px',
+                'padding': '10px 10px 10px 10px',
                 'height': '300px'}
         ),
 
@@ -190,65 +138,48 @@ app.layout = html.Div([
                 id='bar-graph',
                 figure={
                     'data': [Positive, Neutral, Negative],
-                    'layout': go.Layout(title='Most Common Words', barmode='stack', showlegend=True,
+                    'layout': go.Layout(title='Most Common Words by Sentiment',
+                    barmode='stack', showlegend=True,
                             updatemenus=updatemenus)
                         },
                 style={
                 'float': 'right',
                 'width': '55.00%',
-                'padding': '42px 0px 10px 10px',
+                'padding': '5px 10px 10px 10px',
                 'height': '500px'
                 }
                 )
             ]),
-    #html.H2("WordCloud"),
-    #html.Img(src='data:image/png;base64,{}'.format(encoded_image)),
 
-    #html.Img(src='/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/images/wordcloud.png',
-    #    style={'width': '500px'})
-    #html.Img(src='data:image/png;base64,{}'.format(encoded_image))
+# Dropdown Table of Comments
     html.Div([
         dcc.Dropdown(
             id='my-table-dropdown',
             options=[{'label': i, 'value': i}
-            for i in ['All Comments', 'Positive', 'Negative', 'Neutral']
+            for i in ['All Comments', 'Positive', 'Neutral', 'Negative']
             ],value=None),
         html.Div(id='table-container')
         ],
-            style={'width': '49%',
+            style={'width': '45%',
             'display': 'inline-block',
-            'padding': '0 20'}
+            'padding': '0px 5px 5px 10px'}
             ),
-])
-
-'''
------------------------------------------------------------------
-'''
-'''
+# wordclouds
     html.Div([
-        dcc.Graph(
-            id='bubble',
+        dcc.Dropdown(
+            id='image-dropdown',
+            options=[{'label': i, 'value': i} for i in list_of_images],
+            value=list_of_images[0]
+        ),
+        html.Img(id='image')
+    ],
+    style={
+    'float': 'right',
+    'width': '45%',
+    'padding': '0px 15px 5px 0px'})
 
-            figure={
-            'data': go.Scatter(
-                x = most_freq_neu.index,
-                y = -1.0,
-                name="Neutral",
-                mode='markers',
-                marker=dict(
-                    size=most_freq_neu.values,
-                    color='#7FA6EE'))
-            },
 
-            style={
-                'float': 'right',
-                'width': '55.00%',
-                'padding': '42px 0px 10px 10px',
-                'height': '500px'
-                }
-            )
-        ])
-'''
+])
 
 # pie chart
 @app.callback(
@@ -260,10 +191,10 @@ def update_graph(MyModel):
     else:
         values = list(Ratios[str(MyModel)])
 
-    trace = go.Pie(labels=["Positive", "Negative","Neutral"], values=values, hole=.2,
+    trace = go.Pie(labels=["Positive","Neutral", "Negative"], values=values, hole=.2,
         name='MyModel', hoverinfo='label+percent',
-        textinfo='label + value',textfont=dict(size=20),
-        marker=dict(colors= colors2))
+        textinfo='label + value',textfont=dict(size=10),
+        marker=dict(colors= colorP))
 
     return {
         'data': [trace],
@@ -272,12 +203,6 @@ def update_graph(MyModel):
             title='Sentiment Ratios as Predicted by {}'.format(MyModel)
             )
     }
-
-'''my_css_url = "https://github.com/adonovan7/YoutubeAnalysis/blob/master/dash/dash.css"
-app.css.append_css({
-    "external_url": my_css_url
-})
-'''
 
 # table of comments
 @app.callback(
@@ -291,6 +216,21 @@ def table_update(value):
     else:
          filtered_df = simple_df
     return generate_table(filtered_df)
+
+# wordcloud
+@app.callback(
+    dash.dependencies.Output('image', 'src'),
+    [dash.dependencies.Input('image-dropdown', 'value')])
+def update_image_src(value):
+    return static_image_route + value
+
+@app.server.route('{}<image_path>.png'.format(static_image_route))
+def serve_image(image_path):
+    image_name = '{}.png'.format(image_path)
+    if image_name not in list_of_images:
+        raise Exception('"{}" is excluded from the allowed static files'.format(image_path))
+    return flask.send_from_directory(image_directory, image_name)
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)

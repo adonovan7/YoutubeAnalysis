@@ -6,7 +6,7 @@ from urllib import *
 import argparse
 from urllib.parse import urlparse, urlencode, parse_qs
 from urllib.request import  urlopen
-import os
+import os; import string
 import re
 
 path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
@@ -308,10 +308,7 @@ def main():
         print("Invalid Arguments\nAdd --s for searching video by keyword after the filename\nAdd --c to list comments after the filename\nAdd --sc to list vidoes based on channel id")
 
 #    NLP()
-
-if __name__ == '__main__':
-    main()
-
+'''
 #script accepts bytes from the outside world, but processing should be done in unicode. Output in bytes again.
 #In the 1980s, almost all personal computers were 8-bit, meaning that bytes could hold values ranging from 0 to 255.
 #ASCII codes only went up to 127, so some machines assigned values between 128 and 255 to accented characters.
@@ -321,31 +318,38 @@ def safeStr(obj):
     except UnicodeEncodeError:
         return obj.encode('ascii', 'ignore').decode('ascii')
     except: return ""
-
-'''
 for i in corpus:
     #i = i.encode('utf-8', errors='ignore')
     i = i.encode('ascii', 'ignore').decode('ascii')
     #i = unicode(i, errors='ignore')
     print(i, ", ")
-'''
 #for i in corpus:
     #i = i.encode('ascii', 'ignore').decode('ascii')
     #print(i, "@@@")
     #print(i.decode('utf-8'), "@@@")
     #a = safeStr(i)
     #print(a.encode('utf-8'), "@@@")
+for i in corpus:
+    i = i.encode('ascii', 'ignore').decode('ascii')
+    i = re.sub(r'([^0-9A-Za-z \t])', '', i)
+    i = ' '.join(word.strip(string.punctuation) for word in i.split())
+    i = i.lower()
+    print(str(i), ';')
+    '''
+if __name__ == '__main__':
+    main()
 
 filepath = path + "data/data.csv"
 f = open(filepath, "w+")
 f.close()
 
 for i in corpus:
-    i = i.encode('ascii', 'ignore').decode('ascii')
-    i = re.sub(r'([^0-9A-Za-z \t])', '', i)
-    print(str(i), ',')
+      i = i.encode('ascii', 'ignore').decode('ascii')
+      i = ' '.join(word.strip(string.punctuation) for word in i.split())
+      print(str(i), '@@@')
+
 
 '''
 Sources:
-* This code was closely adapted from an api call script by Chirag Rathod: chiragr83@gmail.com
+* This code was adapted from an api call script by Chirag Rathod: chiragr83@gmail.com
 '''

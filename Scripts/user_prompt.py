@@ -5,15 +5,17 @@
 
 import subprocess
 import sys
-import os 
+import os
+#import timeout
 
 path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
 
 def mySubprocess(vidName, vidLink):
 		print("\nURL for %s video: " %vidName, vidLink)
+		#args = '(Python3 apiCall.py --c --videourl=' + vidLink + ' >> ' + path + 'data/data.csv) & sleep 10s ; ^C'
 		args = 'Python3 apiCall.py --c --videourl=' + vidLink + ' >> ' + path + 'data/data.csv'
 		print('Runing URL through API Call.')
-		print('Hint: Press ^C to quit after a few minutes (wait longer if you would like more comments). \n')
+		#print('Hint: Press ^C to quit after a few minutes (wait longer if you would like more comments). \n')
 		subprocess.run(args, shell=True)
 		sys.exit(1)
 
