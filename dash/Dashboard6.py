@@ -3,10 +3,7 @@ from dash.dependencies import Input, Output, Event
 import dash_core_components as dcc; import dash_html_components as html
 import plotly; import flask; import glob; import plotly.plotly as py
 import plotly.graph_objs as go; import pandas as pd; import base64
-import Classifier as UD
-import flask
-import glob
-import os
+import Classifier as UD; import os
 
 
 path = '/Users/andiedonovan/myProjects/Youtube_Python_Project/AndiesBranch/'
@@ -25,8 +22,16 @@ model_options = ['label_mnb', 'label_lr', 'label_xgb']
 mydict = {'label_mnb':'Multinomial Naive Bayes','label_lr': 'Logistic Regression', 'label_xgb': 'Extreme Grandient Boost'}
 
 #colorPalatte= {'positive':'#ef5851', 'neutral': '#cae29a', 'negative':'#437f7c', 'bk':'#c3d8d7', 'white':'#ffffff'}
-colorPalatte= {'positive':'#c3d8d7', 'neutral': '#437f7c', 'negative':'#304948', 'bk':'#c3d8d7', 'white':'#ffffff'}
-colorP = ['#c3d8d7', '#437f7c', '#304948']
+'''colorPalatte= {'positive':'#c3d8d7', 'neutral': '#437f7c', 'negative':'#304948', 'bk':'#c3d8d7', 'white':'#ffffff'}
+colorP = ['#c3d8d7', '#437f7c', '#304948']'''
+
+colorPalatte= {'positive':'#cfd646', 'neutral': '#437f7c', 'negative':'#390c66', 'bk':'#c3d8d7', 'white':'#ffffff'}
+colorP = ['#cfd646', '#437f7c', '#390c66']
+
+#cfd646 # yellow
+# #390c66 purple
+
+
 # extracting comments for each label
 positive = UD.positive
 negative = UD.negative
@@ -58,7 +63,6 @@ Negative = go.Bar(
         )
 
 updatemenus = list([
-
             dict(type="buttons",
                  active=-1,
                  buttons=list([
@@ -108,10 +112,16 @@ app.layout = html.Div([
 # Header
     html.H1(children='YouTube Comment Analyzer',
         style={
-            'padding': '8px',
+            'padding': '5px 5px 0px 5px',
             'text-align': 'center',
             'font-size': '50px'}
         ),
+    html.H1(children='An Application for the Sentiment Analysis of YouTube Comments ',
+            style={
+                'padding': '0px',
+                'text-align': 'center',
+                'font-size': '20px'}
+            ),
 
 # Pie Chart
     html.Div(
@@ -164,6 +174,7 @@ app.layout = html.Div([
             'display': 'inline-block',
             'padding': '0px 5px 5px 10px'}
             ),
+
 # wordclouds
     html.Div([
         dcc.Dropdown(
@@ -209,7 +220,7 @@ def update_graph(MyModel):
     dash.dependencies.Output('table-container', 'children'),
     [dash.dependencies.Input('my-table-dropdown', 'value')])
 def table_update(value):
-    simple_df = data[["label","comment"]]
+    simple_df = df[["label","comment"]]
     selected = {"Positive": 1.0, "Neutral": 0.0, "Negative": -1.0}
     if value != "All Comments":
         filtered_df = simple_df[simple_df["label"]==selected.get(value)]
